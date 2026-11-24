@@ -1,4 +1,4 @@
-# RED DUST LAB — RDL-001 website v3
+# RED DUST LAB — RDL-001 website v4
 
 A responsive, static research website for an Earth-based dust-analogue / photovoltaic voltage experiment. Built for GitHub Pages; no build system or server-side dependencies are required.
 
@@ -8,6 +8,7 @@ A responsive, static research website for an Earth-based dust-analogue / photovo
 - `styles.css` — shared responsive styling and animations.
 - `script.js` — homepage animations, result chart, CSV download, mobile navigation and evidence-photo lightbox.
 - `simulation.js` — recorded-observation replay and conceptual coverage explorer.
+- `RDL-001-observations.csv` — downloadable source observation table.
 - `assets/` — 16 individual experiment-photo crops plus the creator portrait.
 
 ## Run locally
@@ -20,11 +21,10 @@ Open `index.html` in a modern browser. The Simulation Lab is linked from the top
 4. Commit and allow GitHub Pages to redeploy.
 
 ## Data integrity notes
-- The replay uses four sequential observations: 2:50 p.m.; an intermediate observation with unverified time; 3:03 p.m.; and 3:06 p.m.
-- The second observation is shown in sequence but without a fabricated timestamp. Values are not interpolated between stops.
+- The replay uses four timestamped observations: 2:50 p.m., 3:00 p.m., 3:03 p.m. and 3:06 p.m.
+- The 3:00 p.m. observation is recorded as Rover 01 = 9.0 V; Rover 02 = 4.6 V; Main solar panel = 0.6 V. Values are not interpolated between stops.
 - Latest user clarification: at 3:06 p.m. Rover 01 = 0 V / no measurable output; Rover 02 ≈ 3.5 V; Main solar panel = 0 V / no measurable output. These are reported outcomes, not precision 0.000 V readings.
 - At 3:03 p.m., Rover 01 = 8.9 V; Rover 02 = 4.5 V; Main panel = 0 V / no measurable output.
-- The second observation is Rover 01 = 9.0 V; Rover 02 = 4.6 V; Main panel = very small, unquantified output.
 - The 500 g analogue recipe is scaled from the supplied 250 g masses. For MgO, 19.50 g / 250 g = 7.8%, not the 8.9% typed in the message. The listed original percentages sum to 101.1%; percentages derived from the recorded masses sum to 100%. The site preserves masses and flags this discrepancy for verification.
 - 10 g was introduced during a reported 15-minute feed interval (0.667 g/min). This does not establish airborne concentration or panel-deposited mass.
 - Voltage only is reported; current, power, energy and efficiency are not calculated.
@@ -33,8 +33,7 @@ Open `index.html` in a modern browser. The Simulation Lab is linked from the top
 
 ## Evidence and privacy
 - `assets/experiment-01.jpg` through `experiment-08.jpg` and `assets/field-01.jpg` through `field-08.jpg` are individual crops from the two collages supplied for this update.
-- `assets/sinuri-portrait.jpg` is a crop of the creator photograph supplied for the profile. Review the public profile and personal details before publishing to a public website.
-- No experiment video file was supplied. Add a public video link only after uploading the original video and testing its access permissions.
+- `assets/sinuri-portrait-centered.jpg` is a centred, lightly enhanced crop of the creator photograph supplied for the profile. The original `assets/sinuri-portrait.jpg` is retained unchanged. Review the public profile and personal details before publishing to a public website.
 
 ## Accessibility and compatibility
 - Responsive desktop and mobile layouts.

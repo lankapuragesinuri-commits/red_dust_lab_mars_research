@@ -74,3 +74,57 @@ body{font-size:16px;line-height:1.72}
 /* Minimum legibility for interface labels and captions */
 .hero-coordinate,.scroll-cue,.readout-mark,.readout-bottom,.readout-top,.readout-main>span,.readout-stats span,.metric-index,.section-kicker,.setup-visual-head,.spec-heading,.pv-unit small,.pv-status,.figure-caption,.chart-overline,.timeline-event small,.chart-foot,.mars-visual-top,.mars-caption,.mars-facts small,.assumption-chip,.assumption-step small,.assumption-foot span,.source-index,.footer-bottom,.creator-tags span,.creator-signoff,.photo-index,.preview-top,.preview-note,.preview-units span,.sim-hero-stamp span,.replay-time-box small,.replay-time-box span,.unit-label,.slider-head span,.slider-ticks button small,.replay-integrity span,.final-summary small,.recipe-summary span,.recipe-status{font-size:10px}
 @media(max-width:480px){.slider-ticks button small{font-size:8px}.footer-bottom{font-size:9px}.source-index{font-size:9px}}
+
+
+/* RDL-001 revision: improve legibility and keep the evidence viewer centred. */
+.section-aside{font-size:14px;line-height:1.8;max-width:420px}
+.mars-copy>p:not(.overline){font-size:16px;line-height:1.9}
+.mars-facts small{font-size:10px}
+.mars-facts b{font-size:16px}
+.mars-facts span{font-size:12px;line-height:1.6}
+.assumption-step small,.assumption-foot span{font-size:10px;line-height:1.6}
+.assumption-step span{font-size:12px;line-height:1.6}
+.assumption-warning{font-size:13px;line-height:1.8}
+.recipe-table-card{padding:24px}
+.data-table{font-size:15px;min-width:650px}
+.data-table th{font-size:11px;padding:13px 12px}
+.data-table td{font-size:15px;padding:14px 12px;line-height:1.55}
+.data-table td small{font-size:12px}
+.table-note{font-size:13px;line-height:1.75}
+.recipe-warning p,.recipe-note p{font-size:15px;line-height:1.8}
+.methods-section .method-card p{font-size:15px;line-height:1.85}
+.future-phase-grid p{font-size:14px;line-height:1.8}
+.future-phase-grid b{font-size:10px}
+.chart-axis-label{font-size:12px}
+.chart-value-label{font:700 13px var(--mono);fill:#263746;paint-order:stroke;stroke:#fbfaf7;stroke-width:4px;stroke-linejoin:round}
+.chart-value-label.label-rover01{fill:#a95735}
+.chart-value-label.label-rover02{fill:#347e9c}
+.chart-value-label.label-main{fill:#9b772e}
+.chart-wrap{overflow:visible}
+.chart-wrap svg{overflow:visible}
+.photo-lightbox{
+  position:fixed;
+  inset:50% auto auto 50%;
+  transform:translate(-50%,-50%);
+  margin:0;
+  width:min(92vw,1100px);
+  max-height:92vh;
+}
+.photo-lightbox img{max-height:76vh;width:auto}
+.creator-portrait-wrap{width:min(100%,300px);aspect-ratio:1}
+.creator-portrait{object-position:center center;filter:contrast(1.08) saturate(1.06);image-rendering:auto}
+.findings-panel{margin-top:20px;padding:25px;background:#f8f5ef;border:1px solid #ddd3c6;color:#273744}
+.findings-heading h3{font:750 22px var(--display);margin:7px 0;color:#243542}
+.findings-heading>p{font-size:14px;line-height:1.75;color:#68737a;margin:0}
+.findings-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:18px}
+.findings-grid article{padding:17px;background:#fffdfa;border:1px solid #e5ddd2}
+.findings-grid article>span{display:block;font:10px var(--mono);letter-spacing:.1em;color:#a76b4b;margin-bottom:8px}
+.findings-grid article>b{display:block;font:700 16px var(--display);line-height:1.5;color:#253744}
+.findings-grid article>p{font-size:14px;line-height:1.75;color:#66737b;margin:8px 0 0}
+.findings-conclusion{font-size:15px;line-height:1.85;color:#56636b;margin:18px 0 0;padding-top:16px;border-top:1px solid #ded6ca}
+@media(max-width:700px){
+  .findings-grid{grid-template-columns:1fr}
+  .section-aside{font-size:13px}
+  .data-table{min-width:620px}
+  .photo-lightbox{width:94vw;padding:42px 12px 14px}
+}

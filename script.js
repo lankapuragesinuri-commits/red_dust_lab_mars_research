@@ -174,10 +174,28 @@
 
   // Recorded observations used for the chart and CSV export.
   const chartData = {
-    labels: ["2:50 p.m.", "3:03 p.m.", "3:06 p.m."],
-    rover01: { label: "Rover 01", color: "#c56f4b", voltage: [9.8, 8.9, 0], decrease: [0, 9.1836734694, 100], names: ["9.8 V", "8.9 V", "No measurable output"] },
-    rover02: { label: "Rover 02", color: "#4f9ab5", voltage: [4.8, 4.5, 3.5], decrease: [0, 6.25, 27.0833333333], names: ["4.8 V", "4.5 V", "≈3.5 V"] },
-    main: { label: "Main panel", color: "#c49a4c", voltage: [0.8, 0, 0], decrease: [0, 100, 100], names: ["0.8 V", "No measurable output", "0 V / no measurable output"] }
+    labels: ["2:50 p.m.", "3:00 p.m.", "3:03 p.m.", "3:06 p.m."],
+    rover01: {
+      label: "Rover 01", color: "#c56f4b",
+      voltage: [9.8, 9.0, 8.9, 0],
+      decrease: [0, 8.1632653061, 9.1836734694, 100],
+      names: ["9.8 V", "9.0 V", "8.9 V", "No measurable output"],
+      valueLabels: ["9.8", "9.0", "8.9", "0 V*"]
+    },
+    rover02: {
+      label: "Rover 02", color: "#4f9ab5",
+      voltage: [4.8, 4.6, 4.5, 3.5],
+      decrease: [0, 4.1666666667, 6.25, 27.0833333333],
+      names: ["4.8 V", "4.6 V", "4.5 V", "Approximately 3.5 V"],
+      valueLabels: ["4.8", "4.6", "4.5", "≈3.5"]
+    },
+    main: {
+      label: "Main panel", color: "#c49a4c",
+      voltage: [0.8, 0.6, 0, 0],
+      decrease: [0, 25, 100, 100],
+      names: ["0.8 V", "0.6 V", "No measurable output", "No measurable output"],
+      valueLabels: ["0.8", "0.6", "0 V*", "0 V*"]
+    }
   };
   let chartMode = "voltage";
   const visibleSeries = new Set(["rover01", "rover02", "main"]);
@@ -194,63 +212,66 @@
   function renderChart() {
     if (!chart) return;
     chart.replaceChildren();
-    const W = 920, H = 360, left = 64, right = 22, top = 24, bottom = 54;
+    const W = 920, H = 390, left = 72, right = 28, top = 34, bottom = 62;
     const plotW = W - left - right, plotH = H - top - bottom;
-    const allValues = [];
-    visibleSeries.forEach((key) => chartData[key][chartMode].forEach((value) => {
-      if (value !== null && Number.isFinite(value)) allValues.push(value);
-    }));
-    let minY = chartMode === "voltage" ? 0 : 0;
-    let maxY = chartMode === "voltage" ? 10 : 100;
-    if (chartMode === "drop" && allValues.length && Math.max(...allValues) < 100) maxY = 100;
     const xAt = (index) => left + (plotW * index / (chartData.labels.length - 1));
+    const minY = 0;
+    const maxY = chartMode === "voltage" ? 10 : 100;
     const yAt = (value) => top + plotH * (1 - ((value - minY) / (maxY - minY)));
 
     for (let i = 0; i <= 5; i += 1) {
       const value = minY + ((maxY - minY) * i / 5);
       const y = yAt(value);
       chart.appendChild(makeSvg("line", { x1: left, x2: W - right, y1: y, y2: y, class: "chart-grid-line" }));
-      chart.appendChild(makeSvg("text", { x: left - 13, y: y + 4, "text-anchor": "end", class: "chart-axis-label" }, chartMode === "voltage" ? `${value.toFixed(0)} V` : `${value.toFixed(0)}%`));
+      chart.appendChild(makeSvg("text", {
+        x: left - 13, y: y + 4, "text-anchor": "end", class: "chart-axis-label"
+      }, chartMode === "voltage" ? `${value.toFixed(0)} V` : `${value.toFixed(0)}%`));
     }
+
     chartData.labels.forEach((label, index) => {
       const x = xAt(index);
-      chart.appendChild(makeSvg("line", { x1: x, x2: x, y1: top, y2: H - bottom, stroke: "#f0ebe3", "stroke-width": 1, "stroke-dasharray": "3 6" }));
-      chart.appendChild(makeSvg("text", { x, y: H - 24, "text-anchor": "middle", class: "chart-axis-label" }, label));
+      chart.appendChild(makeSvg("line", {
+        x1: x, x2: x, y1: top, y2: H - bottom,
+        stroke: "#f0ebe3", "stroke-width": 1, "stroke-dasharray": "3 6"
+      }));
+      chart.appendChild(makeSvg("text", {
+        x, y: H - 25, "text-anchor": "middle", class: "chart-axis-label"
+      }, label));
     });
-    chart.appendChild(makeSvg("text", { x: left, y: 13, class: "chart-axis-label" }, chartMode === "voltage" ? "VOLTAGE (VOLTS)" : "DECREASE FROM INITIAL READING (%)"));
+
+    chart.appendChild(makeSvg("text", {
+      x: left, y: 17, class: "chart-axis-label"
+    }, chartMode === "voltage" ? "VOLTAGE (VOLTS)" : "DECREASE FROM INITIAL READING (%)"));
 
     ["rover01", "rover02", "main"].forEach((key) => {
       if (!visibleSeries.has(key)) return;
       const series = chartData[key];
       const values = series[chartMode];
-      let path = "";
-      let started = false;
+      const points = values.map((value, index) => `${xAt(index)},${yAt(value)}`);
+      const path = points.map((point, index) => `${index === 0 ? "M" : "L"} ${point}`).join(" ");
+      chart.appendChild(makeSvg("path", {
+        d: path, class: `chart-series series-${key}`, stroke: series.color
+      }));
+
       values.forEach((value, index) => {
-        if (value === null || !Number.isFinite(value)) { started = false; return; }
-        const command = `${xAt(index)},${yAt(value)}`;
-        path += `${started ? " L " : " M "}${command}`;
-        started = true;
-      });
-      if (path) chart.appendChild(makeSvg("path", { d: path, class: `chart-series series-${key.replace("rover", "rover")}`, stroke: series.color }));
-      values.forEach((value, index) => {
-        if (value === null || !Number.isFinite(value)) return;
+        const x = xAt(index), y = yAt(value);
         const point = makeSvg("circle", {
-          cx: xAt(index), cy: yAt(value), r: 5.2,
-          class: `chart-point ${key === "rover01" ? "rover01" : key === "rover02" ? "rover02" : "main"}`,
+          cx: x, cy: y, r: 6,
+          class: `chart-point ${key}`,
           tabindex: 0, role: "img",
           "aria-label": `${series.label}, ${chartData.labels[index]}: ${series.names[index]}`
         });
-        const title = makeSvg("title", {}, `${series.label} · ${chartData.labels[index]} · ${series.names[index]}`);
-        point.appendChild(title);
+        point.appendChild(makeSvg("title", {}, `${series.label} · ${chartData.labels[index]} · ${series.names[index]}`));
+
         const showTip = (event) => {
           if (!tooltip) return;
-          tooltip.innerHTML = `<b>${series.label}</b>${chartData.labels[index]}<br>${series.names[index]}`;
+          tooltip.textContent = `${series.label} · ${chartData.labels[index]} · ${series.names[index]}`;
           tooltip.classList.add("visible");
           const rect = chart.getBoundingClientRect();
-          const clientX = event.clientX || rect.left + (xAt(index) / W) * rect.width;
-          const clientY = event.clientY || rect.top + (yAt(value) / H) * rect.height;
-          tooltip.style.left = `${Math.max(0, Math.min(rect.width - 145, clientX - rect.left + 10))}px`;
-          tooltip.style.top = `${Math.max(0, clientY - rect.top - 42)}px`;
+          const clientX = Number.isFinite(event.clientX) && event.clientX ? event.clientX : rect.left + (x / W) * rect.width;
+          const clientY = Number.isFinite(event.clientY) && event.clientY ? event.clientY : rect.top + (y / H) * rect.height;
+          tooltip.style.left = `${Math.max(0, Math.min(rect.width - 190, clientX - rect.left + 10))}px`;
+          tooltip.style.top = `${Math.max(0, clientY - rect.top - 44)}px`;
         };
         point.addEventListener("pointerenter", showTip);
         point.addEventListener("pointermove", showTip);
@@ -258,10 +279,25 @@
         point.addEventListener("focus", showTip);
         point.addEventListener("blur", () => tooltip?.classList.remove("visible"));
         chart.appendChild(point);
+
+        const labelOffsets = { rover01: -13, rover02: 19, main: -13 };
+        const labelY = y + labelOffsets[key];
+        const labelX = index === chartData.labels.length - 1 ? x - 9 : x + 9;
+        const anchor = index === chartData.labels.length - 1 ? "end" : "start";
+        const labelText = chartMode === "voltage"
+          ? series.valueLabels[index]
+          : `${value.toFixed(1)}%`;
+        chart.appendChild(makeSvg("text", {
+          x: labelX, y: labelY, "text-anchor": anchor,
+          class: `chart-value-label label-${key}`
+        }, labelText));
       });
     });
+
     if (!visibleSeries.size) {
-      chart.appendChild(makeSvg("text", { x: W / 2, y: H / 2, "text-anchor": "middle", class: "chart-no-data" }, "Select at least one series above."));
+      chart.appendChild(makeSvg("text", {
+        x: W / 2, y: H / 2, "text-anchor": "middle", class: "chart-no-data"
+      }, "Select at least one series above."));
     }
   }
   renderChart();
@@ -284,18 +320,17 @@
     renderChart();
   }));
 
-  // Export source observations as CSV. Unverified timing is retained as text and not fabricated.
+  // Export the four timestamped source observations as CSV.
   const downloadButton = $("#downloadCsv");
   downloadButton?.addEventListener("click", () => {
     const rows = [
       ["Observation", "Time", "Rover 01 (V)", "Rover 02 (V)", "Main panel (V)", "Notes"],
       ["Initial", "2:50 p.m.", "9.8", "4.8", "0.8", "Initial recorded readings"],
-      ["Second", "Timestamp to verify", "9.0", "4.6", "", "Main panel: very small output, not quantified; excluded from time-series chart"],
-      ["Third", "3:03 p.m.", "8.9", "4.5", "0", "Main panel: 0 V / no measurable output reported"],
-      ["Final", "3:06 p.m.", "0", "3.5 approx.", "0", "Rover 01 and main panel: 0 V / no measurable output"]
+      ["Second", "3:00 p.m.", "9.0", "4.6", "0.6", "Second recorded observation"],
+      ["Third", "3:03 p.m.", "8.9", "4.5", "0", "Main panel: no measurable output reported"],
+      ["Final", "3:06 p.m.", "0", "3.5 approx.", "0", "Rover 01 and main panel: no measurable output reported"]
     ];
-    const csv = rows.map((row) => row.map((value) => `"${String(value).replaceAll('"', '""')}"`).join(",")).join("
-");
+    const csv = rows.map((row) => row.map((value) => `"${String(value).replaceAll('"', '""')}"`).join(",")).join("\n");
     const blob = new Blob(["﻿", csv], { type: "text/csv;charset=utf-8;" });
     const url = URL.createObjectURL(blob);
     const anchor = document.createElement("a");
