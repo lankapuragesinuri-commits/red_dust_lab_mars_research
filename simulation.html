@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#101720">
+  <meta name="description" content="Interactive replay of RED DUST LAB recorded photovoltaic voltage observations.">
+  <title>Simulation Lab | RED DUST LAB</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="simulation-page">
+  <div class="noise" aria-hidden="true"></div>
+  <header class="topbar" id="top">
+    <a class="brand" href="index.html" aria-label="RED DUST LAB home"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i></span><span class="brand-copy"><b>RED DUST <em>LAB</em></b><small>PLANETARY ENERGY SYSTEMS / RDL-001</small></span></a>
+    <button class="menu-toggle" id="menuToggle" aria-label="Open navigation" aria-expanded="false">☰</button>
+    <nav class="main-nav" id="mainNav" aria-label="Main navigation"><a href="index.html#research">Research</a><a href="index.html#experiment">Experiment</a><a class="active" href="simulation.html">Simulation Lab</a><a href="index.html#results">Results</a><a href="index.html#creator">Creator</a></nav>
+    <a class="nav-cta" href="index.html#results">Research findings <span>↗</span></a>
+  </header>
+  <main>
+    <section class="sim-hero">
+      <div class="sim-hero-orb" aria-hidden="true"></div>
+      <div class="sim-hero-content"><p class="eyebrow"><span class="pulse-dot"></span> RDL-001 / INTERACTIVE OBSERVATION REPLAY</p><p class="hero-kicker">MEASURED DATA / DISCRETE OBSERVATION POINTS</p><h1>REPLAY THE<br><em>VOLTAGE RESPONSE.</em></h1><p class="sim-hero-copy">Move the slider through the observations recorded during the experiment. Jump directly to the start, the 3:03 p.m. reading or the final 3:06 p.m. reading, or play the sequence automatically.</p><a class="button button-quiet" href="index.html#results">← Back to research findings</a></div>
+      <div class="sim-hero-stamp"><span>RUN ID</span><b>RDL-001</b><span>CHAMBER</span><b>21 L</b><span>FEED RECORD</span><b>10 g / 15 min</b></div>
+    </section>
+
+    <section class="sim-workspace section">
+      <div class="section-shell">
+        <div class="section-kicker"><span>01</span> OBSERVATION REPLAY <i></i> FOUR RECORDED STOPS</div>
+        <div class="replay-panel">
+          <div class="replay-topline"><div><span class="chart-overline">LIVE REPLAY DISPLAY</span><h2 id="replayTitle">Initial readings</h2><p id="replayDescription">Baseline observation at the beginning of the experiment.</p></div><div class="replay-time-box"><small>OBSERVATION TIME</small><strong id="replayTime">02:50 <i>PM</i></strong><span id="replayTag">START / BASELINE</span></div></div>
+          <div class="replay-readouts">
+            <article class="replay-unit unit-one"><span class="unit-label"><i></i> ROVER 01</span><strong id="rover01Value">9.8 <small>V</small></strong><span class="unit-status" id="rover01Status">Generating measurable voltage</span><div class="unit-bar"><i id="rover01Bar" style="width:100%"></i></div></article>
+            <article class="replay-unit unit-two"><span class="unit-label"><i></i> ROVER 02</span><strong id="rover02Value">4.8 <small>V</small></strong><span class="unit-status" id="rover02Status">Generating measurable voltage</span><div class="unit-bar"><i id="rover02Bar" style="width:48.98%"></i></div></article>
+            <article class="replay-unit unit-main"><span class="unit-label"><i></i> MAIN SOLAR PANEL</span><strong id="mainValue">0.8 <small>V</small></strong><span class="unit-status" id="mainStatus">Generating measurable voltage</span><div class="unit-bar"><i id="mainBar" style="width:8.16%"></i></div></article>
+          </div>
+          <div class="replay-slider-block"><div class="slider-head"><label for="observationSlider">Move through the observation sequence</label><span id="sliderCounter">STOP 01 / 04</span></div><input id="observationSlider" type="range" min="0" max="3" value="0" step="1" list="observationStops"><datalist id="observationStops"><option value="0" label="2:50"></option><option value="1" label="Intermediate"></option><option value="2" label="3:03"></option><option value="3" label="3:06"></option></datalist><div class="slider-ticks"><button type="button" data-jump="0"><b>02:50 PM</b><small>START</small></button><button type="button" data-jump="1"><b>INTERMEDIATE</b><small>TIME TO VERIFY</small></button><button type="button" data-jump="2"><b>03:03 PM</b><small>THIRD READING</small></button><button type="button" data-jump="3"><b>03:06 PM</b><small>FINAL READING</small></button></div></div>
+          <div class="replay-controls"><div class="playback-buttons"><button class="replay-btn replay-primary" id="playReplay" type="button">▶ Play replay</button><button class="replay-btn" id="pauseReplay" type="button" disabled>Ⅱ Pause</button><button class="replay-btn" id="resetReplay" type="button">↺ Reset</button></div><div class="jump-buttons"><button type="button" data-jump="0">Jump to start</button><button type="button" data-jump="2">Jump to 3:03</button><button type="button" data-jump="3">Jump to 3:06</button></div></div>
+          <div class="replay-integrity"><span>DATA INTEGRITY NOTE</span><p>The slider advances through the four recorded observation points in sequence; equal slider steps do not represent equal elapsed-time intervals. Values are not interpolated. The second observation's exact time was not confirmed, so it is shown as an intermediate reading without assigning a time. “No measurable output” is displayed as 0 V for the visual replay based on the latest clarification; this is a reported status, not a precision 0.000 V measurement.</p></div>
+        </div>
+
+        <div class="sim-bottom-grid">
+          <article class="sim-info-card"><span class="chart-overline">HOW TO USE THIS LAB</span><h3>Run the observation replay</h3><ol><li>Use the slider to select one of the four recorded observations.</li><li>Choose a time-jump button to go directly to a timestamped reading.</li><li>Press <strong>Play replay</strong> to advance through the sequence automatically.</li><li>Compare the three unit readouts at each stop.</li></ol><p>The replay is a visualisation of your data, not a physical model of a solar panel or a prediction of voltage at unmeasured times.</p></article>
+          <article class="sim-info-card sim-summary-card"><span class="chart-overline">FINAL RECORDED OBSERVATION</span><h3>03:06 p.m.</h3><div class="final-summary"><div><b>0 V</b><small>ROVER 01</small></div><div><b>≈3.5 V</b><small>ROVER 02</small></div><div><b>0 V</b><small>MAIN PANEL</small></div></div><p>Rover 02 retained a measurable output while the other two units were reported at no measurable output.</p></article>
+        </div>
+
+        <div class="section-kicker sim-second-kicker"><span>02</span> CONCEPTUAL SURFACE EXPLORER <i></i> VISUAL AID ONLY</div>
+        <div class="coverage-lab reveal">
+          <div class="coverage-controls"><span class="chart-overline">CONCEPTUAL CONTROL / NOT EXPERIMENTAL DATA</span><label for="coverageRange">Illustrative surface coverage <strong id="coverageValue">25%</strong></label><input id="coverageRange" type="range" min="0" max="90" value="25" step="1"><div class="coverage-range-labels"><span>0% / CLEAR</span><span>90% / HIGH COVERAGE</span></div><div class="coverage-readout"><div><small>ILLUSTRATIVE UNCOVERED AREA</small><b id="uncoveredValue">75%</b></div><div><small>MODEL STATUS</small><b>CONCEPT ONLY</b></div></div><p>This second slider changes only the visual dust layer on the panel drawing. It does not modify the measured-data replay or calculate electrical output.</p></div>
+          <div class="coverage-display"><div class="coverage-display-head"><span>PV SURFACE / SCHEMATIC VIEW</span><span>NOT TO SCALE</span></div><div class="solar-mock" id="solarMock"><div class="solar-grid"></div><div class="dust-layer" id="dustLayer"></div><div class="solar-glint"></div></div><div class="coverage-legend"><span><i class="clean-key"></i>Exposed panel surface</span><span><i class="dust-key"></i>Illustrative covered surface</span></div></div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="footer"><div class="footer-main"><a class="brand footer-brand" href="index.html"><span class="brand-mark"><i></i><i></i><i></i></span><span class="brand-copy"><b>RED DUST <em>LAB</em></b><small>INTERACTIVE EXPERIMENT REPLAY</small></span></a><p>Four measured observation points. No invented intermediate data.</p><a class="back-top" href="#top">BACK TO TOP ↑</a></div><div class="footer-bottom"><span>© 2026–27 RED DUST LAB · RDL-001</span><span>INDEPENDENT EARTH-BASED ANALOGUE</span></div></footer>
+  <script src="simulation.js"></script>
+</body>
+</html>

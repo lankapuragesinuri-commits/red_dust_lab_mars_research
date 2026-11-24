@@ -1,0 +1,5 @@
+Observation,Time,Rover 01 (V),Rover 02 (V),Main solar panel (V),Notes
+Initial,2:50 p.m.,9.8,4.8,0.8,Baseline
+Intermediate,Time unverified,9.0,4.6,,Main panel very small output not quantified
+Third,3:03 p.m.,8.9,4.5,0,Main panel no measurable output
+Final,3:06 p.m.,0,3.5 approx.,0,Rover 01 and Main panel no measurable output
