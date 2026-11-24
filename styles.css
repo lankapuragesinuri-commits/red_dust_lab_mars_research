@@ -128,3 +128,48 @@ body{font-size:16px;line-height:1.72}
   .data-table{min-width:620px}
   .photo-lightbox{width:94vw;padding:42px 12px 14px}
 }
+
+
+/* V4.1 readability refinements requested for the prepared batch, dataset and interpretation */
+.recipe-section .section-heading h2,
+.results-section .section-heading h2,
+.methods-section .section-heading h2 {
+  color: #172635;
+}
+.recipe-section .section-heading h2 em,
+.results-section .section-heading h2 em,
+.methods-section .section-heading h2 em {
+  color: #a95632;
+}
+.recipe-table-card .table-card-head h3 {
+  color: #172635;
+}
+.recipe-table-card .table-card-head .chart-overline {
+  color: #80543b;
+}
+.recipe-table-card .recipe-status {
+  color: #294d38;
+  background: #e4eee5;
+}
+.recipe-table .data-table th,
+.recipe-table th {
+  color: #55402f;
+  background: #e9e1d6;
+  font-size: 9px;
+}
+.results-section .section-aside,
+.methods-section .section-aside {
+  color: #515e68;
+}
+.methods-section .method-card h3 {
+  color: #172635;
+}
+.methods-section .method-card p {
+  color: #4d5962;
+  font-size: 11px;
+}
+.methods-section .future-phase-grid article p {
+  color: #4d5962;
+  font-size: 11px;
+  line-height: 1.75;
+}
